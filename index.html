@@ -203,7 +203,23 @@ input:focus{outline:none;border-color:var(--wine);box-shadow:0 0 0 4px rgba(140,
 .credit-side{position:fixed;z-index:40;right:0;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font:700 12px var(--sans);letter-spacing:.06em;color:var(--muted);background:rgba(255,250,243,.85);border:1px solid var(--line);border-left:0;border-radius:0 12px 12px 0;padding:12px 6px;text-decoration:none;opacity:.8;transition:opacity .2s}
 .credit-side:hover{opacity:1;color:var(--wine-d)}
 .credit-side b{direction:ltr;font-family:'Playpen Sans Hebrew',var(--sans);font-weight:800;color:var(--wine-d)}
-@media (max-width:820px){footer{padding-bottom:90px}.credit-side{display:none}.music .lbl{display:none}.music{padding:11px}}
+@media (max-width:820px){/* change / cancel */
+.mine{display:none;position:sticky;top:0;z-index:30;background:var(--wine);color:#fff;font-weight:600;font-size:15px;text-align:center;padding:9px 14px;box-shadow:0 6px 18px -10px rgba(58,31,31,.6)}
+.mine.on{display:block}
+.mine button{background:#fff;color:var(--wine-d);border:0;border-radius:999px;font:700 14px var(--sans);padding:5px 12px;margin-inline-start:8px;cursor:pointer}
+.already{display:inline-block;margin-top:14px;background:none;border:0;padding:0;color:var(--wine);font:700 16px var(--sans);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.cta-band .already{display:block;margin:14px auto 0}
+.admin-link{display:inline-block;margin-top:14px;font-size:12px;color:var(--muted);opacity:.7;text-decoration:none}
+.admin-link:hover{opacity:1;color:var(--wine-d)}
+.myreg{background:#fff;border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.myreg h3{font-size:22px;color:var(--wine-d);margin-bottom:4px}
+.myreg p{margin:0 0 12px;color:var(--muted)}
+.myreg .row{display:flex;flex-wrap:wrap;gap:8px}
+.hopt.cur{border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+.hopt.sel{border-color:var(--wine);background:#fbecea}
+.btn.danger{background:#a3261f}
+.btn.danger:hover{background:#7c1c17}
+footer{padding-bottom:90px}.credit-side{display:none}.music .lbl{display:none}.music{padding:11px}}
 footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:15px}
 
 /* reveal */
@@ -249,6 +265,7 @@ addEventListener('load', () => setTimeout(() => window.scrollTo(0, 0), 0));
 addEventListener('pageshow', e => { if (e.persisted) window.scrollTo(0, 0); });
 </script>
 
+<div class="mine" id="mine"><span id="mineText"></span><button type="button" data-open-mng>לשינוי או ביטול</button></div>
 <main>
   <header class="hero">
     <div class="wrap hero-grid">
@@ -262,6 +279,7 @@ addEventListener('pageshow', e => { if (e.persisted) window.scrollTo(0, 0); });
           <span class="chip">בשעה <b>19:58</b></span>
         </div>
         <button class="btn" type="button" data-open-reg>להרשמה <span aria-hidden="true">←</span></button>
+        <br><button class="already" type="button" data-open-mng>כבר נרשמת? לשינוי או ביטול ←</button>
       </div>
       <div class="win-wrap" aria-hidden="true">
         <div class="window">
@@ -312,6 +330,7 @@ addEventListener('pageshow', e => { if (e.persisted) window.scrollTo(0, 0); });
         <h2>שומרות לך מקום</h2>
         <p>בוחרות סדנה, משאירות פרטים, ואם בא לך – משתבצות להביא משהו קטן לשולחן.</p>
         <button class="btn" type="button" data-open-reg>להרשמה <span aria-hidden="true">←</span></button>
+        <button class="already" type="button" data-open-mng>כבר נרשמת? לשינוי או ביטול ←</button>
       </div>
     </div>
   </section>
@@ -324,8 +343,43 @@ addEventListener('pageshow', e => { if (e.persisted) window.scrollTo(0, 0); });
     <a class="credit" href="https://wa.me/972542543771?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%A9%D7%9C%20%D7%A2%D7%A8%D7%91%20%D7%94%D7%A0%D7%A9%D7%99%D7%9D%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%93%D7%A3%20%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%9B%D7%96%D7%94" target="_blank" rel="noopener">עיצוב ובנייה: <b>MoyalNet@</b> · רוצים דף כזה? <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/><path fill="#fff" d="M17.3 14.6c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1l-.9 1c-.1.2-.3.2-.6.1a7.7 7.7 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5l-.9-2c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.6.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4l-.4-.2Z"/></svg> וואטסאפ</a>
     <a class="credit icon" href="mailto:netanelm87@gmail.com?subject=%D7%93%D7%A3%20%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%E2%80%93%20MoyalNet" aria-label="פנייה במייל ל-MoyalNet"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.5 7 8.5 6 8.5-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> מייל</a>
   </div>
+  <a class="admin-link" href="https://script.google.com/macros/s/AKfycbzCbipq_qrQDy2Zg9RBjPVpbYePOOpsrOAf_0RNuL9KeNjW2RoOPxx8rU1TrALeKKgf/exec?admin=1" target="_blank" rel="noopener">כניסת מנהלות 🔒</a>
 </footer>
 <a class="credit-side" href="https://wa.me/972542543771?text=%D7%94%D7%99%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%A9%D7%9C%20%D7%A2%D7%A8%D7%91%20%D7%94%D7%A0%D7%A9%D7%99%D7%9D%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%93%D7%A3%20%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%9B%D7%96%D7%94" target="_blank" rel="noopener" title="דפי נחיתה בהזמנה – פנייה בוואטסאפ">נבנה ע״י <b>MoyalNet@</b></a>
+<dialog class="reg" id="mng" aria-labelledby="mngTitle">
+  <div class="reg-head"><h2 id="mngTitle">שינוי או ביטול הרשמה</h2><button class="x" type="button" data-mclose aria-label="סגירה">×</button></div>
+  <div class="reg-body">
+    <form class="pane" data-m="find" id="mFind" novalidate>
+      <p class="sub">הזיני את הטלפון והשם הפרטי שאיתם נרשמת.</p>
+      <div class="two">
+        <div class="field"><label for="mPhone">טלפון</label><input id="mPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" placeholder="050-0000000"></div>
+        <div class="field"><label for="mName">שם פרטי</label><input id="mName" type="text" autocomplete="given-name"></div>
+      </div>
+      <div class="actions"><span></span><button class="btn" type="submit" id="mFindBtn">מצאי את ההרשמה שלי</button></div>
+      <div class="msg" id="mMsg1" role="status" aria-live="polite"></div>
+    </form>
+    <div class="pane" data-m="mine" id="mList"></div>
+    <div class="pane" data-m="edit">
+      <div class="chosen"><span id="mEditWho"></span><button class="linkbtn" type="button" data-mgo="mine">→ חזרה</button></div>
+      <p class="sub">בחרי סדנה (המסומנת היא הנוכחית):</p>
+      <div class="hopts" id="mHouses"></div>
+      <div class="field" style="margin-top:16px"><label>מה תביאי לשולחן? <span style="font-weight:400;color:var(--muted)">(לא חובה)</span></label><div class="slots" id="mSlots"></div></div>
+      <div class="actions"><button class="btn ghost" type="button" data-mgo="mine">→ חזרה</button><button class="btn" type="button" id="mSave">שמירת השינוי</button></div>
+      <div class="msg" id="mMsg2" role="status" aria-live="polite"></div>
+    </div>
+    <div class="pane" data-m="cancel" style="text-align:center">
+      <h3 style="font-size:26px;color:var(--wine-d);margin-bottom:6px">לבטל את ההרשמה?</h3>
+      <p id="mCancelText" style="color:var(--muted)"></p>
+      <div class="actions" style="justify-content:center"><button class="btn ghost" type="button" data-mgo="mine">לא, השאירי</button><button class="btn danger" type="button" id="mCancelYes">כן, לבטל</button></div>
+      <div class="msg" id="mMsg3" role="status" aria-live="polite"></div>
+    </div>
+    <div class="pane thanks" data-m="done" role="status" aria-live="polite">
+      <img src="img/mug.webp" alt="">
+      <h3 id="mDoneTitle"></h3><p id="mDoneText"></p>
+      <button class="btn" type="button" data-mclose>סגירה</button>
+    </div>
+  </div>
+</dialog>
 <button class="music" id="music" type="button" aria-pressed="false" aria-label="נעימה ברקע"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="lbl">נעימה ברקע</span></button>
 <audio id="bgm" src="audio/winter-jazz.mp3" loop preload="none"></audio>
 
@@ -358,7 +412,7 @@ addEventListener('pageshow', e => { if (e.persisted) window.scrollTo(0, 0); });
       <img src="img/mug.webp" alt="">
       <h3 id="thxTitle">תודה!</h3>
       <p id="thxText"></p>
-      <p>מחכות לך!</p>
+      <p>מחכות לך! צריך לשנות משהו? אפשר תמיד דרך "כבר נרשמת? לשינוי או ביטול".</p>
       <button class="btn" type="button" data-close>סגירה</button>
     </div>
   </div>
@@ -491,6 +545,7 @@ $('#form').addEventListener('submit', async e => {
     const h = STATE.houses.find(x => x.id === house);
     $('#thxTitle').textContent = `תודה, ${name}!`;
     $('#thxText').textContent = `נרשמת לסדנת "${DETAILS[h.id].name}" – ${DETAILS[h.id].address}. ערב ה-16.11 בשעה 19:58.` + (slotLabel ? ` משבצת האוכל שלך: ${slotLabel}.` : '');
+    remember({ phone, name, house });
     go(3);
     burst();
   } catch (err) {
@@ -545,14 +600,14 @@ rain($('#winSnow'));
   }
   let last = performance.now();
   function tick(t){
-    const dt = Math.min(t - last, 50) / 16.7; last = t;
+    const dt = Math.max(0, Math.min(t - last, 50)) / 16.7; last = t;
     ctx.clearRect(0, 0, W, H);
     for (let i = trail.length - 1; i >= 0; i--){ const d = trail[i]; d.a -= .0018 * dt; if (d.a <= 0) { trail.splice(i, 1); continue; } bead(d.x, d.y, d.r, d.a); }
     for (let i = drops.length - 1; i >= 0; i--){
       const d = drops[i];
       if (d.splash > 0){ // little ring on impact
         ctx.strokeStyle = `rgba(230,240,255,${d.splash * .5})`; ctx.lineWidth = .8;
-        ctx.beginPath(); ctx.arc(d.x, d.y, d.r + (1 - d.splash) * 6, 0, 6.28); ctx.stroke(); d.splash -= .06 * dt; }
+        ctx.beginPath(); ctx.arc(d.x, d.y, Math.max(.1, d.r + (1 - d.splash) * 6), 0, 6.28); ctx.stroke(); d.splash -= .06 * dt; }
       if (!d.run && (d.r > 5.2 || t - d.born > d.hold) && d.r > 3.6) d.run = true;
       if (d.run){
         d.vy = Math.min(d.vy + .025 * d.r * dt, .5 + d.r * .32);
@@ -596,17 +651,99 @@ rain($('#winSnow'));
 })();
 
 // small celebration on success
-function burst(){
-  if (reduce) return;
-  const box = dlg.querySelector('.thanks h3'); const b0 = box.getBoundingClientRect(), d0 = dlg.getBoundingClientRect(); const r = { left: b0.left - d0.left, top: b0.top - d0.top, width: b0.width };
+function burst(host){
+  if (reduce) return; host = host || dlg;
+  const box = host.querySelector('.thanks h3'); const b0 = box.getBoundingClientRect(), d0 = host.getBoundingClientRect(); const r = { left: b0.left - d0.left, top: b0.top - d0.top, width: b0.width };
   for (let i = 0; i < 26; i++){
     const s = document.createElement('span'); s.innerHTML = Math.random() < .65 ? '<svg viewBox="0 0 64 58" width="1em" height="1em"><path d="M32 55C29 52 4 37 4 18.5 4 9.5 11 3 19.5 3 25 3 29.6 6 32 10.5 34.4 6 39 3 44.5 3 53 3 60 9.5 60 18.5 60 37 35 52 32 55Z" fill="currentColor"/></svg>' : '✦';
     Object.assign(s.style, { position: 'absolute', left: (r.left + r.width / 2) + 'px', top: (r.top + 40) + 'px', color: Math.random() < .5 ? '#8c2f3a' : '#5f86a3', fontSize: (12 + Math.random() * 14) + 'px', pointerEvents: 'none', zIndex: 5, transition: 'transform 1.4s cubic-bezier(.2,.8,.2,1), opacity 1.4s' });
-    dlg.appendChild(s);
+    host.appendChild(s);
     requestAnimationFrame(() => { s.style.transform = `translate(${(Math.random() - .5) * 320}px, ${-60 - Math.random() * 180}px) rotate(${Math.random() * 360}deg)`; s.style.opacity = '0'; });
     setTimeout(() => s.remove(), 1500);
   }
 }
+
+// ---- change / cancel registration ----
+const mdlg = $('#mng'); let M = { phone: '', name: '', regs: [], cur: null, house: '' };
+const MERR = { not_found: 'לא מצאנו הרשמה עם הטלפון והשם האלה. בדקי שהם כמו בהרשמה (שם פרטי בלבד).', house_full: 'הסדנה הזו כבר מלאה.', slot_taken: 'המשבצת הזו נתפסה הרגע, בחרי אחרת.', already_registered: 'את כבר רשומה לסדנה הזו.', busy: 'יש עומס רגעי, נסי שוב.', server_error: 'משהו השתבש, נסי שוב.' };
+function store(){ try { return JSON.parse(localStorage.getItem('my_regs') || '[]'); } catch (e) { return []; } }
+function saveStore(a){ try { localStorage.setItem('my_regs', JSON.stringify(a)); } catch (e) {} }
+function remember(r){ const a = store().filter(x => !(x.phone.replace(/\D/g,'') === r.phone.replace(/\D/g,'') && x.house === r.house)); a.push(r); saveStore(a); showMine(); }
+function showMine(){
+  const a = store(); const bar = $('#mine');
+  if (!a.length) { bar.classList.remove('on'); return; }
+  const names = a.map(r => (DETAILS[r.house] || {}).name).filter(Boolean);
+  $('#mineText').textContent = `נרשמת ל${names.map(n => `"${n}"`).join(' ול')} ✓`;
+  bar.classList.add('on');
+}
+function mgo(n){ mdlg.querySelectorAll('[data-m]').forEach(p => p.classList.toggle('on', p.dataset.m === n)); mdlg.querySelectorAll('.msg').forEach(m => { m.textContent = ''; m.className = 'msg'; }); }
+function mmsg(id, t){ const m = $(id); m.className = 'msg err'; m.textContent = t; }
+async function mpost(body){ const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ phone: M.phone, name: M.name }, body)) }); const j = await r.json(); if (j.state) apply(j.state); return j; }
+function openMng(){
+  const a = store(); const last = a[a.length - 1];
+  if (last) { $('#mPhone').value = last.phone; $('#mName').value = last.name.trim().split(/\s+/)[0]; }
+  if (!mdlg.open) mdlg.showModal();
+  mgo('find'); if (last) lookup(); else setTimeout(() => $('#mPhone').focus(), 50);
+}
+async function lookup(){
+  M.phone = $('#mPhone').value.trim(); M.name = $('#mName').value.trim();
+  if (M.phone.replace(/\D/g, '').length < 9 || !M.name) { mmsg('#mMsg1', 'נא למלא טלפון ושם פרטי.'); return; }
+  const b = $('#mFindBtn'); b.disabled = true; b.textContent = 'מחפשת…';
+  try { const j = await mpost({ action: 'lookup' }); if (!j.ok) throw new Error(j.error); M.regs = j.regs; renderMine(); mgo('mine'); }
+  catch (e) { mmsg('#mMsg1', MERR[e.message] || MERR.server_error); }
+  finally { b.disabled = false; b.textContent = 'מצאי את ההרשמה שלי'; }
+}
+function slotLabelOf(id){ const s = (STATE.houses[0] || {slots: []}).slots.find(x => x.id === id); return s ? s.name : ''; }
+function renderMine(){
+  $('#mList').innerHTML = M.regs.map((r, i) => { const d = DETAILS[r.house] || {};
+    return `<div class="myreg"><h3>${d.name || ''}</h3><p>📍 ${d.address || ''}${r.slot ? ` · מביאה: ${slotLabelOf(r.slot)}` : ''}</p>
+      <div class="row"><button class="btn" type="button" data-medit="${i}">החלפת סדנה / שינוי מה שאני מביאה</button><button class="btn ghost" type="button" data-mcancel="${i}">ביטול ההרשמה</button></div></div>`; }).join('')
+    + `<p class="hint" style="text-align:center">נרשמת בשם ${M.regs[0] ? M.regs[0].name : ''}</p>`;
+}
+function renderEdit(){
+  const r = M.cur, cap = STATE.capacity;
+  $('#mEditWho').textContent = `${r.name} · כרגע: ${(DETAILS[r.house] || {}).name}`;
+  $('#mHouses').innerHTML = STATE.houses.map(h => { const d = DETAILS[h.id]; const mine = h.id === r.house;
+    const full = !mine && h.remaining !== null && h.remaining <= 0; const left = mine ? h.remaining + 1 : h.remaining;
+    return `<button type="button" class="hopt ${mine ? 'cur' : ''} ${h.id === M.house ? 'sel' : ''}" data-mpick="${h.id}" ${full ? 'disabled' : ''}>
+      <span class="hrow"><img src="${d.img}" alt=""><span><b>${d.name}</b><small>📍 ${d.address}</small></span></span>
+      <span class="hfoot">${full ? '<span class="badge full">הבית מלא</span>' : mine ? '<span class="badge">הסדנה שלך</span>' : `<span class="badge">נותרו ${left} מקומות</span>`}</span></button>`; }).join('');
+  const h = STATE.houses.find(x => x.id === M.house), prev = (mdlg.querySelector('input[name=mslot]:checked') || {}).value;
+  const keep = prev !== undefined ? prev : (M.house === r.house ? r.slot : '');
+  $('#mSlots').innerHTML = `<label><input type="radio" name="mslot" value="">לא מביאה כלום</label>` + h.slots.map(s => {
+    const T = TOTAL[s.id] || 1; const own = (M.house === r.house && r.slot === s.id) ? 1 : 0; const free = s.remaining + own;
+    return `<label><input type="radio" name="mslot" value="${s.id}" ${free <= 0 ? 'disabled' : ''}>${s.name}${free <= 0 ? ' (תפוסה)' : T > 1 ? ` · ${free} פנויות` : ''}</label>`; }).join('');
+  const k = $('#mSlots').querySelector(`input[value="${keep}"]:not([disabled])`); ($('#mSlots').querySelector(k ? `input[value="${keep}"]` : 'input')).checked = true;
+}
+document.addEventListener('click', async e => {
+  if (e.target.closest('[data-open-mng]')) { openMng(); return; }
+  if (e.target.closest('[data-mclose]')) { mdlg.close(); return; }
+  const g = e.target.closest('[data-mgo]'); if (g) { mgo(g.dataset.mgo); return; }
+  const ed = e.target.closest('[data-medit]'); if (ed) { M.cur = M.regs[+ed.dataset.medit]; M.house = M.cur.house; mdlg.querySelectorAll('input[name=mslot]').forEach(i => i.checked = false); $('#mSlots').innerHTML = ''; renderEdit(); mgo('edit'); return; }
+  const pk = e.target.closest('[data-mpick]'); if (pk) { M.house = pk.dataset.mpick; $('#mSlots').innerHTML = ''; renderEdit(); return; }
+  const cx = e.target.closest('[data-mcancel]'); if (cx) { M.cur = M.regs[+cx.dataset.mcancel]; $('#mCancelText').textContent = `ההרשמה שלך לסדנת "${(DETAILS[M.cur.house] || {}).name}" תבוטל והמקום יתפנה לאחרות.`; mgo('cancel'); return; }
+});
+$('#mFind').addEventListener('submit', e => { e.preventDefault(); lookup(); });
+$('#mSave').addEventListener('click', async () => {
+  const slot = (mdlg.querySelector('input[name=mslot]:checked') || {}).value || '';
+  if (M.house === M.cur.house && slot === (M.cur.slot || '')) { mmsg('#mMsg2', 'לא שינית כלום 🙂'); return; }
+  const b = $('#mSave'); b.disabled = true; b.textContent = 'שומרת…';
+  try { const j = await mpost({ action: 'update', id: M.cur.id, house: M.house, slot }); if (!j.ok) throw new Error(j.error);
+    const a = store().filter(x => !(x.house === M.cur.house)); a.push({ phone: M.phone, name: M.cur.name, house: M.house }); saveStore(a); showMine();
+    $('#mDoneTitle').textContent = 'עודכן! ✓'; $('#mDoneText').textContent = `את רשומה עכשיו לסדנת "${DETAILS[M.house].name}" – ${DETAILS[M.house].address}.` + (slot ? ` את מביאה: ${slotLabelOf(slot)}.` : ''); mgo('done'); burst(mdlg); }
+  catch (e) { mmsg('#mMsg2', MERR[e.message] || MERR.server_error); if (e.message === 'house_full' || e.message === 'slot_taken') renderEdit(); }
+  finally { b.disabled = false; b.textContent = 'שמירת השינוי'; }
+});
+$('#mCancelYes').addEventListener('click', async () => {
+  const b = $('#mCancelYes'); b.disabled = true; b.textContent = 'מבטלת…';
+  try { const j = await mpost({ action: 'cancel', id: M.cur.id }); if (!j.ok) throw new Error(j.error);
+    saveStore(store().filter(x => x.house !== M.cur.house)); showMine();
+    $('#mDoneTitle').textContent = 'ההרשמה בוטלה'; $('#mDoneText').textContent = 'חבל שלא תגיעי 💛 אם תתחרטי – אפשר להירשם שוב כל עוד יש מקום.'; mgo('done'); }
+  catch (e) { mmsg('#mMsg3', MERR[e.message] || MERR.server_error); }
+  finally { b.disabled = false; b.textContent = 'כן, לבטל'; }
+});
+mdlg.addEventListener('click', e => { if (e.target === mdlg) mdlg.close(); });
+showMine();
 
 // ---- background music (starts on first tap unless muted before) ----
 (function(){
